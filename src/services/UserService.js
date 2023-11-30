@@ -22,30 +22,17 @@ export const createUser = async (employee) => {
 };
 
 export const getUsers = async () => {
-  return await User.find({})
-    .populate({
-      path: "employee",
-      populate: {
-        path: "procedure",
-      },
-    })
-    .exec();
+  return await User.find({}).populate("employee").exec();
 };
 
 const getUserByUsername = async (username) => {
-  return await User.findOne({ username: username })
-    .populate({
-      path: "employee",
-      populate: {
-        path: "procedure",
-      },
-    })
-    .exec();
+  return await User.findOne({ username: username }).populate("employee").exec();
 };
 
 export const login = async (user) => {
   const EXPIRATION_HOURS = 10;
   const u = await getUserByUsername(user.username);
+  if (!u) return null;
   const success = await u.matchPassword(user.password);
   if (success) {
     const secret = process.env.secret;

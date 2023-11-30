@@ -26,6 +26,7 @@ export const getAll = async (req, res) => {
 
 export const signIn = async (req, res) => {
   const user = req.body;
+  console.log(user);
   const u = await login(user);
   res.json(u);
 };
